@@ -48,7 +48,7 @@ p6df::modules::m365::prompt::mod() {
 
   local str
   if p6_string_blank_NOT "$P6_DFZ_PROFILE_M365"; then
-    str="m365:\t\t  $P6_DFZ_PROFILE_M365"
+    str="m365:\t\t  $P6_DFZ_PROFILE_M365: "
     if p6_string_blank_NOT "$AZURE_CLIENT_ID"; then
       str=$(p6_string_append "$str" "client" "/")
     fi
