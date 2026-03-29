@@ -48,12 +48,14 @@ p6df::modules::m365::prompt::mod() {
 
   local str
   if p6_string_blank_NOT "$P6_DFZ_PROFILE_M365"; then
-    str="m365:\t\t  $P6_DFZ_PROFILE_M365: "
-    if p6_string_blank_NOT "$AZURE_CLIENT_ID"; then
-      str=$(p6_string_append "$str" "client" "/")
-    fi
-    if p6_string_blank_NOT "$AZURE_TENANT_ID"; then
-      str=$(p6_string_append "$str" "tenant" "/")
+    if p6_string_blank_NOT "$AZURE_CLIENT_ID$AZURE_TENANT_ID"; then
+      str="m365:\t\t  $P6_DFZ_PROFILE_M365:"
+      if p6_string_blank_NOT "$AZURE_CLIENT_ID"; then
+        str=$(p6_string_append "$str" "client" " ")
+      fi
+      if p6_string_blank_NOT "$AZURE_TENANT_ID"; then
+        str=$(p6_string_append "$str" "tenant" "/")
+      fi
     fi
   fi
 
@@ -77,29 +79,22 @@ p6df::modules::m365::langs() {
 ######################################################################
 #<
 #
-# Function: p6df::modules::m365::profile::on(profile, client_id, tenant_id, client_secret)
+# Function: p6df::modules::m365::profile::on(profile, code)
 #
 #  Args:
 #	profile -
-#	client_id -
-#	tenant_id -
-#	client_secret -
+#	code - shell code block (export AZURE_CLIENT_ID=... AZURE_TENANT_ID=... AZURE_CLIENT_SECRET=...)
 #
 #  Environment:	 AZURE_CLIENT_ID AZURE_CLIENT_SECRET AZURE_TENANT_ID P6_DFZ_PROFILE_M365
 #>
 ######################################################################
 p6df::modules::m365::profile::on() {
   local profile="$1"
-  local client_id="$2"
-  local tenant_id="$3"
-  local client_secret="${4:-}"
+  local code="$2"
+
+  p6_run_code "$code"
 
   p6_env_export "P6_DFZ_PROFILE_M365" "$profile"
-  p6_env_export "AZURE_CLIENT_ID" "$client_id"
-  p6_env_export "AZURE_TENANT_ID" "$tenant_id"
-  if p6_string_blank_NOT "$client_secret"; then
-    p6_env_export "AZURE_CLIENT_SECRET" "$client_secret"
-  fi
 
   p6_return_void
 }
@@ -107,17 +102,19 @@ p6df::modules::m365::profile::on() {
 ######################################################################
 #<
 #
-# Function: p6df::modules::m365::profile::off()
+# Function: p6df::modules::m365::profile::off(code)
 #
-#  Environment:	 AZURE_CLIENT_ID AZURE_TENANT_ID P6_DFZ_PROFILE_M365
+#  Args:
+#	code - shell code block previously passed to profile::on
+#
+#  Environment:	 AZURE_CLIENT_ID AZURE_CLIENT_SECRET AZURE_TENANT_ID P6_DFZ_PROFILE_M365
 #>
 ######################################################################
 p6df::modules::m365::profile::off() {
+  local code="$1"
 
+  p6_env_unset_from_code "$code"
   p6_env_export_un P6_DFZ_PROFILE_M365
-  p6_env_export_un AZURE_CLIENT_ID
-  p6_env_export_un AZURE_CLIENT_SECRET
-  p6_env_export_un AZURE_TENANT_ID
 
   p6_return_void
 }
