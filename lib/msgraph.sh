@@ -640,11 +640,6 @@ p6df::modules::m365::sp::directory::get() {
 #	client_secret -
 #	tenant_id -
 #
-#  Notes:
-#	Acquires a token with all Graph application permissions granted
-#	to the app registration (via .default). Requires admin consent
-#	for every permission the app declares in Entra ID.
-#
 #>
 ######################################################################
 p6df::modules::m365::sp::all::get() {
@@ -663,8 +658,7 @@ p6df::modules::m365::sp::all::get() {
 #
 # Function: p6df::modules::m365::users::list()
 #
-#  Environment:	 AZURE_CLIENT_ID AZURE_TENANT_ID
-#
+#  Environment:	 P6_DFZ_SRC_DIR
 #>
 ######################################################################
 p6df::modules::m365::users::list() {
@@ -679,12 +673,7 @@ p6df::modules::m365::users::list() {
 #
 # Function: p6df::modules::m365::licenses::list()
 #
-#  Summary:
-#	Print a table of MS Teams licenses and trials per user,
-#	including the subscription start and end dates.
-#
-#  Environment:	 AZURE_CLIENT_ID AZURE_TENANT_ID
-#
+#  Environment:	 P6_DFZ_SRC_DIR
 #>
 ######################################################################
 p6df::modules::m365::licenses::list() {
