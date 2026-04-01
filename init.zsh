@@ -40,5 +40,5 @@ p6df::modules::m365::langs() {
 ######################################################################
 p6df::modules::m365::profile::mod() {
 
-  p6_return_words 'm365' "$AZURE_CLIENT_ID"
+  p6_return_words 'm365' '$AZURE_CLIENT_ID'
 }
