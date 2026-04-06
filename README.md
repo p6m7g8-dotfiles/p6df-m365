@@ -36,8 +36,10 @@ TODO: Add a short summary of this module.
 ##### p6df-m365/init.zsh
 
 - `p6df::modules::m365::deps()`
+- `p6df::modules::m365::external::brews()`
 - `p6df::modules::m365::langs()`
-- `words m365 $AZURE_CLIENT_ID = p6df::modules::m365::profile::mod()`
+- `p6df::modules::m365::mcp()`
+- `words m365 = p6df::modules::m365::profile::mod()`
 
 #### p6df-m365/lib
 
